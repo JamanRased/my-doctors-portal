@@ -1,24 +1,39 @@
 import { Button, Container, Grid, TextField, Typography } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import login from '../../../images/login.png';
 
 const Register = () => {
+    const [loginData, setLoginData] = useState({});
+    //Handle Email Passwaord Change 
+    const handleOnChange = e => {
+        const field = e.target.name;
+        const value = e.target.value;
+
+        const newLoginData = { ...loginData };
+        newLoginData[field] = value;
+        setLoginData(newLoginData);
+    }
+    //Submit Register Button
+    const handleSubmit = e => {
+        if (loginData.password !== loginData.password2) {
+            alert('Your password did not match');
+            return
+        }
+        e.preventDefault();
+    }
+
     return (
         <Container>
             <Grid container spacing={2}>
                 <Grid item sx={{ mt: 8 }} xs={12} md={6}>
                     <Typography variant="body1" gutterBottom>Please Register</Typography>
-                    <form>
-                        <TextField
-                            sx={{ width: '75%', m: 1 }}
-                            id="standard-basic"
-                            label="Your Name"
-                            name="email" variant="standard" />
+                    <form onSubmit={handleSubmit}>
                         <TextField
                             sx={{ width: '75%', m: 1 }}
                             id="standard-basic"
                             label="Your Email"
+                            onChange={handleOnChange}
                             name="email" variant="standard" />
                         <TextField
                             sx={{ width: '75%', m: 1 }}
@@ -26,7 +41,16 @@ const Register = () => {
                             label="Create Your Password"
                             type="password"
                             name="password"
-                           
+                            onChange={handleOnChange}
+                            variant="standard" />
+
+                            <TextField
+                            sx={{ width: '75%', m: 1 }}
+                            id="standard-basic"
+                            label="Re-Type Your Password"
+                            type="password"
+                            name="password2"
+                            onChange={handleOnChange}
                             variant="standard" />
 
                         <Button sx={{ width: '75%', m: 1 }} type="submit" variant="contained">Register</Button>
